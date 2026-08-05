@@ -1,8 +1,0 @@
-$kind: collection
-name: EventEase APIs
-description: ""
-variables:
-  user_token: ""
-  admin_token: ""
-  event_id: ""
-  booking_id: ""
