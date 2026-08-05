@@ -1,0 +1,12 @@
+$kind: http-request
+url: http://localhost:5000/api/events
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      const events = pm.response.json();
+      if (Array.isArray(events) && events.length > 0) {
+          pm.collectionVariables.set("event_id", events[0]._id);
+      }
+    language: text/javascript
+order: 1000

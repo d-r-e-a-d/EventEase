@@ -1,0 +1,23 @@
+$kind: http-request
+url: http://localhost:5000/api/bookings
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{user_token}}
+body:
+  type: text
+  content: |-
+    {
+        "eventId": "{{event_id}}",
+        "seats": 1,
+        "otp": "123456"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      const responseData = pm.response.json();
+      if(responseData.bookingId) {
+          pm.collectionVariables.set("booking_id", responseData.bookingId);
+      }
+    language: text/javascript
+order: 2000

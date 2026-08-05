@@ -1,6 +1,6 @@
-# Eventora
+# EventEase
 
-Eventora is a REST API for discovering events, managing event listings, and creating ticket bookings with email OTP verification.
+EventEase is a REST API for discovering events, managing event listings, and creating ticket bookings with email OTP verification.
 
 ## Features
 
@@ -37,7 +37,7 @@ copy .env.example .env
 
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/eventoraDev
+MONGODB_URI=mongodb://localhost:27017/eventeaseDev
 EMAIL_USER=your-email@example.com
 EMAIL_PASS=your-email-app-password
 JWT_SECRET=replace-with-a-long-random-secret
@@ -64,7 +64,7 @@ npm run seed
 The seeder creates three sample events and this admin account:
 
 ```text
-Email: eventora.admin@example.com
+Email: eventease.admin@example.com
 Password: Admin@123
 ```
 
@@ -117,7 +117,7 @@ First call `POST /api/bookings/send-otp`, then use the emailed OTP in this reque
 
 ## Testing with Postman
 
-Import your Eventora collection into Postman. Register and verify a regular user to obtain `user_token`, then log in with the seeded admin account to obtain `admin_token`.
+Import your EventEase collection into Postman. Register and verify a regular user to obtain `user_token`, then log in with the seeded admin account to obtain `admin_token`.
 
 ## Project structure
 
