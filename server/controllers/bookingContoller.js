@@ -93,6 +93,17 @@ exports.getMyBookings = async (req, res) => {
         res.status(500).json({ message: 'Unable to get bookings', error: error.message });
     }
 };
+exports.getAllBookings = async (req, res) => {
+    try {
+        const bookings = await Booking.find()
+            .populate('eventId', 'title availableSeats totalSeats')
+            .populate('userId', 'name email')
+            .sort({ createdAt: -1 });
+        res.json(bookings);
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to get bookings', error: error.message });
+    }
+};
 exports.cancelBooking = async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id);

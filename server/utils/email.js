@@ -9,12 +9,12 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS
     }
 });
-const sendBookingEmail = async (email, bookingDetails) => {
+const sendBookingEmail = async (email, eventTitle, amount) => {
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
         subject: 'Your Booking Details',
-        text: `Your booking has been confirmed. Details: ${JSON.stringify(bookingDetails)}`
+        text: `Your booking for ${eventTitle} has been created. Total amount: ${amount}.`
     };
     try {
         await transporter.sendMail(mailOptions);
@@ -24,7 +24,10 @@ const sendBookingEmail = async (email, bookingDetails) => {
     }
 };
 
-exports.sendOtpEmail = async (email, otp, type) => {
+const sendOTPEmail = async (email, otp, type) => {
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        throw new Error('Email service is not configured. Set EMAIL_USER and EMAIL_PASS in server/.env.');
+    }
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
@@ -36,5 +39,8 @@ exports.sendOtpEmail = async (email, otp, type) => {
         console.log('OTP email sent successfully');
     } catch (error) {
         console.error('Error sending OTP email:', error);
+        throw new Error('Unable to send the OTP email. Check the Gmail account and app password configuration.');
     }
 };
+
+module.exports = { sendOTPEmail, sendBookingEmail };

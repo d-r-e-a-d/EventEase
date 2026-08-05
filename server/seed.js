@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Event = require('./models/Event');
 const User = require('./models/User');
 
-const adminEmail = 'eventora.admin@example.com';
+const adminEmail = 'eventease.admin@example.com';
 
 const events = [
     {
@@ -54,7 +54,7 @@ async function seed() {
     const admin = await User.findOneAndUpdate(
         { email: adminEmail },
         {
-            name: 'Eventora Admin',
+            name: 'EventEase Admin',
             email: adminEmail,
             password,
             role: 'admin',
