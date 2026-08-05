@@ -56,7 +56,7 @@ const Login = () => {
                             <input
                                 type="email"
                                 required
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-700 focus:border-gray-700 transition shadow-sm"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-gray-700 focus:border-gray-700 transition shadow-sm"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -66,7 +66,7 @@ const Login = () => {
                             <input
                                 type="password"
                                 required
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-700 focus:border-gray-700 transition shadow-sm"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-gray-700 focus:border-gray-700 transition shadow-sm"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -79,7 +79,7 @@ const Login = () => {
                             type="text"
                             required
                             placeholder="6-digit code"
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-700 transition shadow-sm font-bold tracking-widest text-center text-lg"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-gray-700 transition shadow-sm font-bold tracking-widest text-center text-lg"
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
                             maxLength="6"
