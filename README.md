@@ -1,39 +1,52 @@
 # EventEase
 
-EventEase is a REST API for discovering events, managing event listings, and creating ticket bookings with email OTP verification.
+EventEase is a full-stack event booking application with a React frontend and an Express/MongoDB backend.
 
-## Features
+## What it does
 
-- User registration, login, and JWT authentication
-- Email OTP verification for accounts and bookings
-- Public event browsing, search, and category filtering
-- Admin-only event creation, updates, and deletion
-- Booking creation, confirmation, cancellation, and seat availability tracking
-- Seed script with an admin account and sample events
+- Browse public events with category filtering and search
+- Register and log in as a user
+- Verify accounts and bookings with email OTPs
+- Create, update, and delete events as an admin
+- Book seats, confirm bookings, and cancel bookings
+- Track available seats per event
 
 ## Built with
 
-- Node.js and Express
-- MongoDB and Mongoose
-- JSON Web Tokens
-- Nodemailer
+- React + Vite
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT authentication
+- Nodemailer for email OTPs
+- Tailwind CSS
 
 ## Getting started
 
-### 1. Install dependencies
+### Prerequisites
+
+- Node.js 18+ installed
+- MongoDB running locally or accessible via connection string
+- A valid email account for sending OTPs (Gmail app password recommended)
+
+### Install dependencies
 
 ```bash
 cd server
 npm install
+cd ../client
+npm install
 ```
 
-### 2. Configure environment variables
+### Configure environment variables
 
-Copy `.env.example` to a new `.env` file, then add your own values.
+Copy `server/.env.example` to `server/.env` and update the values:
 
 ```bash
+cd server
 copy .env.example .env
 ```
+
+Example `server/.env`:
 
 ```env
 PORT=5000
@@ -43,34 +56,47 @@ EMAIL_PASS=your-email-app-password
 JWT_SECRET=replace-with-a-long-random-secret
 ```
 
-Use an email-provider app password for `EMAIL_PASS`; never commit `.env` to GitHub.
+> `EMAIL_PASS` should be an app password or secure SMTP credential. Do not commit `.env` to GitHub.
 
-### 3. Start the API
+### Run the app
+
+From the repository root:
 
 ```bash
 npm run dev
 ```
 
-The API runs at `http://localhost:5000`.
+This starts both the backend and the frontend together.
 
-If PowerShell blocks `npm`, use `npm.cmd run dev` instead.
+- API: `http://localhost:5000`
+- Frontend: `http://localhost:5173`
 
-### 4. Load sample data (optional)
+If the root command does not work, run the server and client separately:
 
 ```bash
+cd server && npm run dev
+cd ../client && npm run dev
+```
+
+### Seed sample data
+
+Optional: populate the database with test events and an admin account.
+
+```bash
+cd server
 npm run seed
 ```
 
-The seeder creates three sample events and this admin account:
+Seed credentials:
 
 ```text
 Email: eventease.admin@example.com
 Password: Admin@123
 ```
 
-Change this password before using the project outside local development.
+Change this password immediately for production use.
 
-## API overview
+## API reference
 
 Base URL: `http://localhost:5000`
 
@@ -80,54 +106,71 @@ Base URL: `http://localhost:5000`
 | Verify account OTP | POST | `/api/auth/verify-otp` | Public |
 | Login | POST | `/api/auth/login` | Public |
 | List events | GET | `/api/events` | Public |
-| Get one event | GET | `/api/events/:id` | Public |
+| Get event by ID | GET | `/api/events/:id` | Public |
 | Create event | POST | `/api/events` | Admin |
 | Update event | PUT | `/api/events/:id` | Admin |
 | Delete event | DELETE | `/api/events/:id` | Admin |
-| Send booking OTP | POST | `/api/bookings/send-otp` | Signed-in user |
-| Create booking | POST | `/api/bookings` | Signed-in user |
-| My bookings | GET | `/api/bookings/my` | Signed-in user |
+| Send booking OTP | POST | `/api/bookings/send-otp` | Authenticated user |
+| Create booking | POST | `/api/bookings` | Authenticated user |
+| My bookings | GET | `/api/bookings/my` | Authenticated user |
+| List all bookings | GET | `/api/bookings/all` | Admin |
 | Confirm booking | PUT | `/api/bookings/:id/confirm` | Admin |
 | Cancel booking | DELETE | `/api/bookings/:id` | Admin |
 
-Protected endpoints need this header:
+Protected endpoints require:
 
-```text
+```http
 Authorization: Bearer <token>
 ```
 
-### Event filters
+### Event query examples
 
-```text
+```http
 GET /api/events?category=Music
 GET /api/events?search=workshop
 ```
 
-### Create a booking
+### Booking flow
 
-First call `POST /api/bookings/send-otp`, then use the emailed OTP in this request:
+1. Request an OTP for a booking:
 
 ```json
 {
   "eventId": "EVENT_ID",
-  "seats": 1,
+  "seats": 2
+}
+```
+
+2. Confirm the booking using the OTP:
+
+```json
+{
+  "eventId": "EVENT_ID",
+  "seats": 2,
   "otp": "123456"
 }
 ```
 
-## Testing with Postman
-
-Import your EventEase collection into Postman. Register and verify a regular user to obtain `user_token`, then log in with the seeded admin account to obtain `admin_token`.
-
 ## Project structure
 
 ```text
-server/
-  controllers/  # Request handlers
-  middleware/   # Authentication and role checks
-  models/       # MongoDB schemas
-  routes/       # API endpoints
-  utils/        # Email helpers
-  index.js      # Application entry point
-  seed.js       # Sample-data script
+.
+├── client/          # React frontend
+├── server/          # Express backend
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
+│   ├── index.js
+│   └── seed.js
+├── package.json     # root scripts for running both services
+└── README.md
 ```
+
+## Notes
+
+- The frontend is in `client/` and uses Vite.
+- The backend is in `server/` and uses MongoDB and JWT-based auth.
+- Keep secret credentials in `server/.env` only.
+- If you only need the backend, run `cd server && npm run dev`.
