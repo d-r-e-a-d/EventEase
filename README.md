@@ -56,6 +56,19 @@ EMAIL_PASS=your-email-app-password
 JWT_SECRET=replace-with-a-long-random-secret
 ```
 
+Create `client/.env` from `client/.env.example` as well:
+
+```bash
+cd client
+copy .env.example .env
+```
+
+Example `client/.env`:
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
 > `EMAIL_PASS` should be an app password or secure SMTP credential. Do not commit `.env` to GitHub.
 
 ### Run the app

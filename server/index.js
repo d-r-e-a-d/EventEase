@@ -9,8 +9,12 @@ dotenv.config();
 
 
 
-const app=express();
-app.use(cors());
+const app = express();
+const corsOptions = {
+    origin: 'https://eventease-frontend-a8mp.onrender.com',
+    credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 //routes
 app.use('/api/auth',authRoutes);
