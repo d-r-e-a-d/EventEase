@@ -66,7 +66,7 @@ copy .env.example .env
 Example `client/.env`:
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000/api
+VITE_API_URL=http://localhost:5000
 ```
 
 > `EMAIL_PASS` should be an app password or secure SMTP credential. Do not commit `.env` to GitHub.
